@@ -18,11 +18,16 @@
 	</div>
 </div>
 
-<autocomplete items="myItems"></autocomplete>
-
 <div class="issues-container">
-	<header>PRs mentioning your team members</header>
-	<div ng-repeat="issue in teamIssues" class="issue">
+	<header>PRs mentioning your team members <span class="edit" ng-click="isEdit=!isEdit">edit</span></header>
+	<div class="edit-team" ng-show="isEdit">
+		Add your team members here:
+		<autocomplete items="members" placeholder="Type Github username" on-select="addTeamMember"></autocomplete>
+		<div ng-repeat="member in teamMembers">
+			{{member}} <span ng-click="removeTeamMember(member)">(remove)</span>
+		</div>
+	</div>
+	<div ng-repeat="issue in teamIssues" class="issue" ng-hide="isEdit">
 		<img ng-src="{{issue.user.avatar_url}}" class="user-image">
 		<div class="line-top">
 			<span class="repository-name">{{issue.repository.name}}</span>
@@ -30,7 +35,7 @@
 		</div>
 		<div class="line-bottom">
 			Opened <span class="created-at">{{getRelativeTime(issue.created_at)}}</span> by
-			<span class="username">{{issue.user.login}}</span>
+			<span class="username">{{issue.user.login}}</span> mentioning {{issue.mentionedUser}}
 		</div>
 
 		<div class="comments">

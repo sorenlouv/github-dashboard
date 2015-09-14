@@ -10,4 +10,5 @@ angular.module('githubDashboard', ['ngMaterial', 'ngRoute', 'ngCookies'])
 	.controller('mainCtrl', require('./main/main'))
 
 	// Services
+	.service('teamService', require('./services/team'))
 	.service('githubService', require('./services/github'));

@@ -6,19 +6,19 @@ function autocompleteDirective() {
 		template: '<input type="text"></input>',
 		replace: true,
 		link: function($scope, $element, $attrs) {
-			var autocomplete = new Awesomplete($element[0], {
-				filter: function(text, input) {
-					var currentQuery = input.match(/[^,]*$/)[0];
-					return Awesomplete.FILTER_CONTAINS(text, currentQuery);
-				},
-				replace: function(text) {
-					var before = this.input.value.match(/^.+,\s*|/)[0];
-					this.input.value = before + text + ', ';
-				}
-			});
+			var autocomplete = new Awesomplete($element[0]);
 
 			$scope.$watch($attrs.items, function(items) {
 				autocomplete.list = items;
+			});
+
+			var onSelect = $scope.$eval($attrs.onSelect);
+			$element.on('awesomplete-selectcomplete', function(evt) {
+				var text = $element.val();
+				$scope.$apply(function() {
+					onSelect(text);
+					$element.val('');
+				});
 			});
 		},
 	};

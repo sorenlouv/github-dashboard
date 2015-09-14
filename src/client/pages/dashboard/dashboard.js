@@ -1,27 +1,39 @@
 var moment = require('moment');
+var _ = require('lodash');
 
-function dashboardCtrl($scope, githubService) {
-	githubService.getUserMentions()
-		.then(function(response) {
-			$scope.userIssues = response.data;
+function dashboardCtrl($scope, $q, githubService, teamService) {
+	$scope.teamMembers = teamService.getList();
+	$scope.isEdit = false;
+
+	var repos = ['Apps', 'Apps-Server', 'Backend-Service', 'Frontend'];
+	var users = $scope.teamMembers;
+	var teamPromise = githubService.getMultiTeamMentions(repos, users);
+	var userPromise = githubService.getUserMentions();
+	$q.all([userPromise, teamPromise])
+		.then(function(issues) {
+			var userIssues = issues[0];
+			var teamIssues = issues[1];
+			$scope.userIssues = userIssues;
+			$scope.teamIssues = teamIssues.filter(function(issue) {
+				return !_.find($scope.userIssues, {id: issue.id});
+			});
 		});
 
-	var repos = ['Apps', 'Backend-Service', 'Frontend'];
-	var users = ['zdlm', 'hofmeister'];
-	githubService.getMultiTeamMentions(repos, users)
-		.then(function(issues) {
-			$scope.teamIssues = issues;
+	githubService.getTeamMembers('Tradeshift')
+		.then(function(members) {
+			$scope.members = _.map(members, 'login');
 		});
 
 	$scope.getRelativeTime = function(timestamp) {
 		return moment(timestamp).fromNow();
 	};
 
-	githubService.getTeamMembers('Tradeshift')
-		.then(function(response) {
-			$scope.myItems = response.data.map(function(member) {
-				return member.login;
-			});
-		});
+	$scope.addTeamMember = function(name) {
+		teamService.add(name);
+	};
+
+	$scope.removeTeamMember = function(name) {
+		teamService.remove(name);
+	};
 }
-module.exports = ['$scope', 'githubService', dashboardCtrl];
+module.exports = ['$scope', '$q', 'githubService', 'teamService', dashboardCtrl];
