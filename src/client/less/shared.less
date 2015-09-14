@@ -1,0 +1,22 @@
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+	cursor: pointer;
+
+	&:disabled,
+	&.click-disabled {
+		cursor: inherit;
+	}
+}
+
+body {
+	font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
+	font-size: @ts-fontsize;
+	margin: @ts-unit;
+}
+
+a {
+	color: @ts-black;
+	text-decoration: none;
+}
+

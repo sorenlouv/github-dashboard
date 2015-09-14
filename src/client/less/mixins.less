@@ -1,0 +1,23 @@
+.fadeNgHide (@duration: 0.2s) {
+	transition: opacity @duration;
+	&.ng-hide {
+		opacity: 0;
+		&.ng-hide-active {
+		  opacity: 1;
+		}
+	}
+}
+
+.ellipsis () {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.breakpoint-small(@rules) {
+  @media (max-width: 1000px) { @rules(); }
+}
+
+.breakpoint-large(@rules) {
+  @media (min-width: 1000px) { @rules(); }
+}

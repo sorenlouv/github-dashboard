@@ -1,0 +1,39 @@
+<div class="issues-container">
+	<header>PRs mentioning you</header>
+	<div ng-repeat="issue in userIssues" class="issue">
+		<img ng-src="{{issue.user.avatar_url}}" class="user-image">
+		<div class="line-top">
+			<span class="repository-name">{{issue.repository.name}}</span>
+			<a ng-href="{{issue.html_url}}" class="issue-title">{{issue.title}}</a>
+		</div>
+		<div class="line-bottom">
+			Opened <span class="created-at">{{getRelativeTime(issue.created_at)}}</span> by
+			<span class="username">{{issue.user.login}}</span>
+		</div>
+
+		<div class="comments">
+			<img src="img/comments.png">
+			<span class="comment-count">{{issue.comments}}</span>
+		</div>
+	</div>
+</div>
+
+<div class="issues-container">
+	<header>PRs mentioning your team members</header>
+	<div ng-repeat="issue in teamIssues" class="issue">
+		<img ng-src="{{issue.user.avatar_url}}" class="user-image">
+		<div class="line-top">
+			<span class="repository-name">{{issue.repository.name}}</span>
+			<a ng-href="{{issue.html_url}}" class="issue-title">{{issue.title}}</a>
+		</div>
+		<div class="line-bottom">
+			Opened <span class="created-at">{{getRelativeTime(issue.created_at)}}</span> by
+			<span class="username">{{issue.user.login}}</span>
+		</div>
+
+		<div class="comments">
+			<img src="img/comments.png">
+			<span class="comment-count">{{issue.comments}}</span>
+		</div>
+	</div>
+</div>

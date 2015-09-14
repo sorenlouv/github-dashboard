@@ -1,0 +1,61 @@
+.issues-container {
+	box-sizing: border-box;
+	border: 1px solid @ts-grey;
+	float: left;
+
+	.breakpoint-small ({
+		width: 100%;
+	});
+
+	.breakpoint-large ({
+		width: calc(~"50% -" @ts-unit);
+		&:first-child {
+			margin-right: @ts-unit;
+		}
+	});
+
+	header {
+		height: @ts-unit-double;
+		background-color: @ts-grey-lite;
+		font-size: @ts-fontsize-big;
+		line-height: @ts-unit-double;
+		text-indent: @ts-unit-half;
+		font-weight: bold;
+		border-bottom: 1px solid @ts-grey;
+	}
+
+	.issue {
+		position: relative;
+		height: @ts-unit-double;
+		margin: @ts-unit-half 0;
+		border-bottom: 1px solid @ts-grey;
+
+		.user-image {
+			float: left;
+			margin: 0 @ts-unit-half;
+			width: @ts-unit-plus;
+		}
+		.line-top {
+			.ellipsis;
+			width: calc(~"100% - 80px");
+			.repository-name {
+				font-weight: bold;
+			}
+		}
+
+		.line-bottom {
+			font-size: @ts-fontsize-small;
+			color: @ts-grey-dark;
+		}
+
+		.comments {
+			position: absolute;
+			top: @ts-unit-half;
+			right: @ts-unit-half;
+			.comment-count {
+				font-size: @ts-fontsize-small;
+				vertical-align: top;
+			}
+		}
+	}
+}
