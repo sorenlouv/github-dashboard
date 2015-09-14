@@ -29,6 +29,10 @@ function spinnerDirective() {
 				_.merge(options, newOptions);
 			}
 
+			if ($attrs.overlay) {
+				$element.prepend('<div class="loading-spinner-overlay"></div>');
+			}
+
 			var spinner = new Spinner(options);
 			var SPINNING_CSS_CLASS = 'loading-spinner';
 			var LOADING_CSS_CLASS = 'is-loading';

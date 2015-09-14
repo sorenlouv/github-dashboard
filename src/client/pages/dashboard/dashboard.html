@@ -1,4 +1,4 @@
-<div class="issues-container" spinner="isLoading">
+<div class="issues-container" spinner="isLoading.user" overlay="true">
 	<header>PRs mentioning you</header>
 	<div ng-repeat="issue in userIssues" class="issue">
 		<img ng-src="{{issue.user.avatar_url}}" class="user-image">
@@ -18,7 +18,7 @@
 	</div>
 </div>
 
-<div class="issues-container team-issues" spinner="isLoading">
+<div class="issues-container team-issues" spinner="isLoading.team" overlay="true">
 	<header>PRs mentioning your team members <span class="edit" ng-click="isEdit=!isEdit">edit</span></header>
 
 	<div ng-include="'editTeam'" ng-if="isEdit"></div>
