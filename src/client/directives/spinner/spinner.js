@@ -6,23 +6,28 @@ function spinnerDirective() {
 		restrict: 'A',
 		link: function($scope, $element, $attrs) {
 			var options = {
-				lines: 12, // The number of lines to draw
-				length: 33, // The length of each line
-				width: 6, // The line thickness
-				radius: 33, // The radius of the inner circle
-				corners: 1, // Corner roundness (0..1)
-				rotate: 0, // The rotation offset
-				direction: 1, // 1: clockwise, -1: counterclockwise
-				color: '#555', // #rgb or #rrggbb or array of colors
-				speed: 2, // Rounds per second
-				trail: 60, // Afterglow percentage
-				shadow: false, // Whether to render a shadow
-				hwaccel: true, // Whether to use hardware acceleration
-				className: 'spinner',
+				lines: 8,
+				length: 28,
+				width: 10,
+				radius: 20,
+				scale: 1,
+				corners: 1,
+				color: '#000',
+				opacity: 0.25,
+				rotate: 0,
+				direction: 1,
+				speed: 1.5,
+				trail: 60,
+				fps: 20,
 				zIndex: 2e9,
-				top: '160px',
+				className: 'spinner',
+				top: '50%',
 				left: '50%',
+				shadow: false,
+				hwaccel: false,
+				position: 'absolute'
 			};
+
 
 			var newOptions = $scope.$eval($attrs.spinnerOptions);
 			if (_.isObject(newOptions)){
