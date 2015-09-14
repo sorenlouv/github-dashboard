@@ -15,5 +15,9 @@ function editTeamCtrl($scope, githubService, teamService) {
 	$scope.removeTeamMember = function(name) {
 		teamService.remove(name);
 	};
+
+	$scope.updateTeamIssues = function() {
+		$scope.$emit('teamMembers:updated');
+	};
 }
 module.exports = ['$scope', 'githubService', 'teamService', editTeamCtrl];

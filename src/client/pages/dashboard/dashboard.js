@@ -10,6 +10,7 @@ function dashboardCtrl($scope, $q, githubService, teamService) {
 	var users = $scope.teamMembers;
 	var teamPromise = githubService.getMultiTeamMentions(repos, users);
 	var userPromise = githubService.getUserMentions();
+
 	$q.all([userPromise, teamPromise])
 		.then(function(issues) {
 			$scope.isLoading = false;
@@ -20,6 +21,19 @@ function dashboardCtrl($scope, $q, githubService, teamService) {
 				return !_.find($scope.userIssues, {id: issue.id});
 			});
 		});
+
+	$scope.$on('teamMembers:updated', function() {
+		$scope.isEdit = false;
+		$scope.isLoading = true;
+
+		githubService.getMultiTeamMentions(repos, users)
+			.then(function(teamIssues) {
+				$scope.isLoading = false;
+				$scope.teamIssues = teamIssues.filter(function(issue) {
+					return !_.find($scope.userIssues, {id: issue.id});
+				});
+			});
+	});
 
 	$scope.getRelativeTime = function(timestamp) {
 		return moment(timestamp).fromNow();
