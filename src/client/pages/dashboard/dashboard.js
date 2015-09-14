@@ -4,6 +4,7 @@ var _ = require('lodash');
 function dashboardCtrl($scope, $q, githubService, teamService) {
 	$scope.teamMembers = teamService.getList();
 	$scope.isEdit = false;
+	$scope.isLoading = true;
 
 	var repos = ['Apps', 'Apps-Server', 'Backend-Service', 'Frontend'];
 	var users = $scope.teamMembers;
@@ -11,6 +12,7 @@ function dashboardCtrl($scope, $q, githubService, teamService) {
 	var userPromise = githubService.getUserMentions();
 	$q.all([userPromise, teamPromise])
 		.then(function(issues) {
+			$scope.isLoading = false;
 			var userIssues = issues[0];
 			var teamIssues = issues[1];
 			$scope.userIssues = userIssues;
@@ -19,21 +21,8 @@ function dashboardCtrl($scope, $q, githubService, teamService) {
 			});
 		});
 
-	githubService.getTeamMembers('Tradeshift')
-		.then(function(members) {
-			$scope.members = _.map(members, 'login');
-		});
-
 	$scope.getRelativeTime = function(timestamp) {
 		return moment(timestamp).fromNow();
-	};
-
-	$scope.addTeamMember = function(name) {
-		teamService.add(name);
-	};
-
-	$scope.removeTeamMember = function(name) {
-		teamService.remove(name);
 	};
 }
 module.exports = ['$scope', '$q', 'githubService', 'teamService', dashboardCtrl];

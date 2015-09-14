@@ -5,6 +5,9 @@
 
 	.breakpoint-small ({
 		width: 100%;
+		&:first-child {
+			margin-bottom: @ts-unit;
+		}
 	});
 
 	.breakpoint-large ({
@@ -30,11 +33,17 @@
 		margin: @ts-unit-half 0;
 		border-bottom: 1px solid @ts-grey;
 
+		&:last-child {
+			margin-bottom: 0;
+			border-bottom: 0;
+		}
+
 		.user-image {
 			float: left;
 			margin: 0 @ts-unit-half;
 			width: @ts-unit-plus;
 		}
+
 		.line-top {
 			.ellipsis;
 			width: calc(~"100% - 80px");

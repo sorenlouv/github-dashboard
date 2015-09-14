@@ -81,7 +81,7 @@ function githubService($http, $cookies, $location, $q) {
 		});
 	};
 
-	service.getTeamMembers = function(organizationName) {
+	service.getOrganizationMembers = function(organizationName) {
 		return request({
 			method: 'GET',
 			url: '/orgs/' + organizationName + '/members',

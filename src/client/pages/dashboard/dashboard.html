@@ -1,4 +1,4 @@
-<div class="issues-container">
+<div class="issues-container" spinner="isLoading">
 	<header>PRs mentioning you</header>
 	<div ng-repeat="issue in userIssues" class="issue">
 		<img ng-src="{{issue.user.avatar_url}}" class="user-image">
@@ -18,15 +18,11 @@
 	</div>
 </div>
 
-<div class="issues-container">
+<div class="issues-container" spinner="isLoading">
 	<header>PRs mentioning your team members <span class="edit" ng-click="isEdit=!isEdit">edit</span></header>
-	<div class="edit-team" ng-show="isEdit">
-		Add your team members here:
-		<autocomplete items="members" placeholder="Type Github username" on-select="addTeamMember"></autocomplete>
-		<div ng-repeat="member in teamMembers">
-			{{member}} <span ng-click="removeTeamMember(member)">(remove)</span>
-		</div>
-	</div>
+
+	<div ng-include="'editTeam'" ng-if="isEdit"></div>
+
 	<div ng-repeat="issue in teamIssues" class="issue" ng-hide="isEdit">
 		<img ng-src="{{issue.user.avatar_url}}" class="user-image">
 		<div class="line-top">

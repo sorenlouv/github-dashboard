@@ -10,7 +10,8 @@
     "lodash": "^3.10.0",
     "moment": "^2.10.6",
     "q": "^1.4.1",
-    "request": "^2.61.0"
+    "request": "^2.61.0",
+    "spin.js": "^2.3.2"
   },
   "devDependencies": {
     "browserify": "^11.1.0",
