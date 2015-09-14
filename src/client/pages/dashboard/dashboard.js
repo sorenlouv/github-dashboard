@@ -6,9 +6,11 @@ function dashboardCtrl($scope, githubService) {
 			$scope.userIssues = response.data;
 		});
 
-	githubService.getTeamMentions()
-		.then(function(response) {
-			$scope.teamIssues = response.data;
+	var repos = ['Apps', 'Backend-Service', 'Frontend'];
+	var users = ['zdlm', 'hofmeister'];
+	githubService.getMultiTeamMentions(repos, users)
+		.then(function(issues) {
+			$scope.teamIssues = issues;
 		});
 
 	$scope.getRelativeTime = function(timestamp) {
@@ -17,7 +19,9 @@ function dashboardCtrl($scope, githubService) {
 
 	githubService.getTeamMembers('Tradeshift')
 		.then(function(response) {
-			console.log(response.data);
+			$scope.myItems = response.data.map(function(member) {
+				return member.login;
+			});
 		});
 }
 module.exports = ['$scope', 'githubService', dashboardCtrl];

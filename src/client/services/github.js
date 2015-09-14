@@ -1,4 +1,6 @@
-function githubService($http, $cookies, $location) {
+var _ = require('lodash');
+
+function githubService($http, $cookies, $location, $q) {
 	var service = {};
 
 	function request(options) {
@@ -36,7 +38,7 @@ function githubService($http, $cookies, $location) {
 
 	service.getUserMentions = function() {
 		return request({
-			method: 'get',
+			method: 'GET',
 			url: '/orgs/Tradeshift/issues',
 			params: {
 				filter: 'mentioned'
@@ -44,24 +46,41 @@ function githubService($http, $cookies, $location) {
 		});
 	};
 
-	service.getTeamMentions = function() {
+	service.getTeamMentions = function(repoName, username) {
+		var twoWeeksAgo = new Date(Date.now() - 1000 * 3600 * 24 * 14).toISOString();
 		return request({
-			method: 'get',
-			url: '/repos/Tradeshift/Apps/issues',
+			method: 'GET',
+			url: '/repos/Tradeshift/' + repoName + '/issues',
 			params: {
-				mentioned: 'zdlm'
+				mentioned: username,
+				since: twoWeeksAgo
 			}
+		});
+	};
+
+	service.getMultiTeamMentions = function(repos, users) {
+		var promises = [];
+		repos.forEach(function(repoName) {
+			users.forEach(function(username) {
+				promises.push(service.getTeamMentions(repoName, username));
+			});
+		});
+		return $q.all(promises).then(function(responses) {
+			return _(responses).map('data').flatten().sortBy('id').uniq('id').reverse().value();
 		});
 	};
 
 	service.getTeamMembers = function(organizationName) {
 		return request({
-			method: 'get',
-			url: '/orgs/' + organizationName + '/members'
+			method: 'GET',
+			url: '/orgs/' + organizationName + '/members',
+			params: {
+				per_page: 100
+			}
 		});
 	};
 
 	return service;
 }
 
-module.exports = ['$http', '$cookies', '$location', githubService];
+module.exports = ['$http', '$cookies', '$location', '$q', githubService];
