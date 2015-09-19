@@ -3,7 +3,7 @@ var _ = require('lodash');
 
 function dashboardCtrl($scope, $q, githubService, teamService) {
 	$scope.teamMembers = teamService.getList();
-	$scope.isEdit = false;
+	$scope.isEditTeam = false;
 	$scope.isLoading = {
 		team: true,
 		user: true
@@ -26,10 +26,17 @@ function dashboardCtrl($scope, $q, githubService, teamService) {
 			$scope.teamIssues = teamIssues.filter(function(issue) {
 				return !_.find($scope.userIssues, {id: issue.id});
 			});
+
+			userIssues.map(function(issue) {
+				githubService.getIssueComments(issue.repository.name, issue.number)
+					.then(function(comments) {
+						issue.approved = hasApprovedComment(comments);
+					});
+			});
 		});
 
 	$scope.$on('teamMembers:updated', function() {
-		$scope.isEdit = false;
+		$scope.isEditTeam = false;
 		$scope.isLoading.team = true;
 
 		githubService.getMultiTeamMentions(repos, users)
@@ -44,5 +51,19 @@ function dashboardCtrl($scope, $q, githubService, teamService) {
 	$scope.getRelativeTime = function(timestamp) {
 		return moment(timestamp).fromNow();
 	};
+
+	$scope.showEditTeam = function() {
+		$scope.isEditTeam = true;
+	};
+
+	function hasApprovedComment(comments) {
+		return comments.some(function(comment) {
+			return hasEmoji(comment.body);
+		});
+	}
+
+	function hasEmoji(str) {
+		return /:[a-zA-Z0-9-+_]*:/g.test(str);
+	}
 }
 module.exports = ['$scope', '$q', 'githubService', 'teamService', dashboardCtrl];

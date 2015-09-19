@@ -5,6 +5,7 @@
 		<div class="line-top">
 			<span class="repository-name">{{issue.repository.name}}</span>
 			<a ng-href="{{issue.html_url}}" class="issue-title">{{issue.title}}</a>
+			<img class="approved" ng-if="issue.approved" src="img/checkmark.png">
 		</div>
 		<div class="line-bottom">
 			Opened <span class="created-at">{{getRelativeTime(issue.created_at)}}</span> by
@@ -19,11 +20,14 @@
 </div>
 
 <div class="issues-container team-issues" spinner="isLoading.team" overlay="true">
-	<header>PRs mentioning your team members <span class="edit" ng-click="isEdit=!isEdit">edit</span></header>
+	<header>PRs mentioning your team members <span class="edit" ng-click="isEditTeam=!isEditTeam">edit</span></header>
 
-	<div ng-include="'editTeam'" ng-if="isEdit"></div>
+	<div ng-if="isEditTeam" ng-include="'editTeam'"></div>
+	<div ng-if="!isEditTeam && teamIssues.length == 0" class="empty">
+		You haven't added any team members. <button ng-click="showEditTeam()">Add team members</button>
+	</div>
 
-	<div ng-repeat="issue in teamIssues" class="issue" ng-hide="isEdit">
+	<div ng-repeat="issue in teamIssues" class="issue" ng-hide="isEditTeam">
 		<img ng-src="{{issue.user.avatar_url}}" class="user-image">
 		<div class="line-top">
 			<span class="repository-name">{{issue.repository.name}}</span>

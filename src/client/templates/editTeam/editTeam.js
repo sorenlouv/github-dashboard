@@ -3,7 +3,7 @@ var _ = require('lodash');
 
 function editTeamCtrl($scope, githubService, teamService) {
 	$scope.teamMembers = teamService.getList();
-	githubService.getOrganizationMembers('Tradeshift')
+	githubService.getOrganizationMembers()
 		.then(function(members) {
 			$scope.organizationMembers = _.map(members, 'login');
 		});

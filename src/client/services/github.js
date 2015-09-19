@@ -2,6 +2,7 @@ var _ = require('lodash');
 
 function githubService($http, $cookies, $location, $q) {
 	var service = {};
+	var organizationName = 'Tradeshift';
 
 	function request(options) {
 		var baseUrl = 'https://api.github.com';
@@ -43,10 +44,11 @@ function githubService($http, $cookies, $location, $q) {
 		var twoWeeksAgo = new Date(Date.now() - 1000 * 3600 * 24 * 14).toISOString();
 		return request({
 			method: 'GET',
-			url: '/orgs/Tradeshift/issues',
+			url: '/orgs/' + organizationName + '/issues',
 			params: {
 				filter: 'mentioned',
-				since: twoWeeksAgo
+				since: twoWeeksAgo,
+				sort: 'update'
 			}
 		});
 	};
@@ -55,10 +57,11 @@ function githubService($http, $cookies, $location, $q) {
 		var oneWeekAgo = new Date(Date.now() - 1000 * 3600 * 24 * 7).toISOString();
 		return request({
 			method: 'GET',
-			url: '/repos/Tradeshift/' + repoName + '/issues',
+			url: '/repos/' + organizationName + '/' + repoName + '/issues',
 			params: {
 				mentioned: username,
-				since: oneWeekAgo
+				since: oneWeekAgo,
+				sort: 'update'
 			}
 		})
 		.then(function(issues) {
@@ -81,12 +84,24 @@ function githubService($http, $cookies, $location, $q) {
 		});
 	};
 
-	service.getOrganizationMembers = function(organizationName) {
+	service.getOrganizationMembers = function() {
 		return request({
 			method: 'GET',
 			url: '/orgs/' + organizationName + '/members',
 			params: {
 				per_page: 100
+			}
+		});
+	};
+
+	service.getIssueComments = function(repoName, issueId) {
+		var oneWeekAgo = new Date(Date.now() - 1000 * 3600 * 24 * 7).toISOString();
+		return request({
+			method: 'GET',
+			url: '/repos/' + organizationName + '/' + repoName + '/issues/' + issueId + '/comments',
+			params: {
+				direction: 'desc',
+				sort: 'updated'
 			}
 		});
 	};
