@@ -1,0 +1,28 @@
+.login-page {
+	text-align: center;
+
+	.github-button {
+		@height: 33px;
+
+		font-size: @ts-fontsize-big;
+		background-color: @ts-grey-lite;
+		padding: @ts-unit-half;
+		border: 1px solid @ts-grey;
+		border-radius: @ts-unit-half;
+		line-height: @height;
+		height: @height;
+		display: inline-block;
+
+
+		&:before {
+			display: inline-block;
+			width: @height;
+			height: @height;
+			margin-right: @ts-unit-half;
+			content: "";
+			background: url("/img/github-icon.png") no-repeat 0 0;
+			background-size: 100%;
+			vertical-align: middle;
+		}
+	}
+}

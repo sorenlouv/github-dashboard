@@ -1,0 +1,29 @@
+.container {
+	box-sizing: border-box;
+	border: 1px solid @ts-grey;
+	float: left;
+
+	.breakpoint-small ({
+		width: 100%;
+		&:first-child {
+			margin-bottom: @ts-unit;
+		}
+	});
+
+	.breakpoint-large ({
+		width: calc(~"50% -" @ts-unit);
+		&:first-child {
+			margin-right: @ts-unit;
+		}
+	});
+
+	header {
+		height: @ts-unit-double;
+		background-color: @ts-grey-lite;
+		font-size: @ts-fontsize-big;
+		line-height: @ts-unit-double;
+		text-indent: @ts-unit-half;
+		font-weight: bold;
+		border-bottom: 1px solid @ts-grey;
+	}
+}

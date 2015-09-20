@@ -2,6 +2,7 @@ var moment = require('moment');
 var _ = require('lodash');
 
 function dashboardCtrl($scope, $q, githubService, teamService) {
+	$scope.spinnerOptions = {top: '22px', left: '95%', lines: 7, length: 8, width: 4, radius: 6, scale: 1};
 	$scope.teamMembers = teamService.getList();
 	$scope.isEditTeam = false;
 	$scope.isLoading = {

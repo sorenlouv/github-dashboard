@@ -1,46 +1,48 @@
-<div class="issues-container" spinner="isLoading.user" overlay="true">
-	<header>PRs mentioning you</header>
-	<div ng-repeat="issue in userIssues" class="issue">
-		<img ng-src="{{issue.user.avatar_url}}" class="user-image">
-		<div class="line-top">
-			<span class="repository-name">{{issue.repository.name}}</span>
-			<a ng-href="{{issue.html_url}}" class="issue-title">{{issue.title}}</a>
-			<img class="approved" ng-if="issue.approved" src="img/checkmark.png">
-		</div>
-		<div class="line-bottom">
-			Opened <span class="created-at">{{getRelativeTime(issue.created_at)}}</span> by
-			<span class="username">{{issue.user.login}}</span>
-		</div>
+<div class="dashboard-page">
+	<div class="container user-issues" spinner="isLoading.user" spinner-options="spinnerOptions">
+		<header>PRs mentioning you</header>
+		<div ng-repeat="issue in userIssues" class="content">
+			<img ng-src="{{issue.user.avatar_url}}" class="user-image">
+			<div class="line-top">
+				<span class="repository-name">{{issue.repository.name}}</span>
+				<a ng-href="{{issue.html_url}}" class="issue-title">{{issue.title}}</a>
+				<img class="approved" ng-if="issue.approved" src="img/checkmark.png">
+			</div>
+			<div class="line-bottom">
+				Opened <span class="created-at">{{getRelativeTime(issue.created_at)}}</span> by
+				<span class="username">{{issue.user.login}}</span>
+			</div>
 
-		<div class="comments">
-			<img src="img/comments.png">
-			<span class="comment-count">{{issue.comments}}</span>
+			<div class="comments">
+				<img src="img/comments.png">
+				<span class="comment-count">{{issue.comments}}</span>
+			</div>
 		</div>
 	</div>
-</div>
 
-<div class="issues-container team-issues" spinner="isLoading.team" overlay="true">
-	<header>PRs mentioning your team members <span class="edit" ng-click="isEditTeam=!isEditTeam">edit</span></header>
+	<div class="container team-issues" spinner="isLoading.team" spinner-options="spinnerOptions" ng-hide="isEditTeam">
+		<header>PRs mentioning your team members <a class="edit" href="/#/edit-team">edit</a></header>
 
-	<div ng-if="isEditTeam" ng-include="'editTeam'"></div>
-	<div ng-if="!isEditTeam && teamIssues.length == 0" class="empty">
-		You haven't added any team members. <button ng-click="showEditTeam()">Add team members</button>
-	</div>
-
-	<div ng-repeat="issue in teamIssues" class="issue" ng-hide="isEditTeam">
-		<img ng-src="{{issue.user.avatar_url}}" class="user-image">
-		<div class="line-top">
-			<span class="repository-name">{{issue.repository.name}}</span>
-			<a ng-href="{{issue.html_url}}" class="issue-title">{{issue.title}}</a>
-		</div>
-		<div class="line-bottom">
-			Opened <span class="created-at">{{getRelativeTime(issue.created_at)}}</span> by
-			<span class="username">{{issue.user.login}}</span> mentioning {{issue.mentionedUser}}
+		<div ng-if="teamIssues.length == 0" class="empty-issues">
+			<div class="text">No issues to display</div>
+			<a class="button button-primary" href="/#/edit-team">Add team members</a>
 		</div>
 
-		<div class="comments">
-			<img src="img/comments.png">
-			<span class="comment-count">{{issue.comments}}</span>
+		<div ng-repeat="issue in teamIssues" class="content">
+			<img ng-src="{{issue.user.avatar_url}}" class="user-image">
+			<div class="line-top">
+				<span class="repository-name">{{issue.repository.name}}</span>
+				<a ng-href="{{issue.html_url}}" class="issue-title">{{issue.title}}</a>
+			</div>
+			<div class="line-bottom">
+				Opened <span class="created-at">{{getRelativeTime(issue.created_at)}}</span> by
+				<span class="username">{{issue.user.login}}</span> mentioning {{issue.mentionedUser}}
+			</div>
+
+			<div class="comments">
+				<img src="img/comments.png">
+				<span class="comment-count">{{issue.comments}}</span>
+			</div>
 		</div>
 	</div>
 </div>

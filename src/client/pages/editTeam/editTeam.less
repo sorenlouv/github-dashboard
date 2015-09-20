@@ -1,0 +1,48 @@
+.edit-team-page {
+	.search {
+		margin: @ts-unit-half;
+
+		input {
+			width: @ts-unit * 10;
+			background-color: @ts-grey-lite;
+			border: 1px solid @ts-grey;
+			padding: @ts-unit-half;
+			border-radius: @ts-unit-quarter;
+		}
+	}
+
+	.empty-team-members {
+		margin: @ts-unit-half;
+	}
+
+	.team-members {
+		list-style: none;
+		padding: 0;
+
+		.team-member {
+			padding: @ts-unit-half;
+			border-top: 1px solid @ts-grey;
+			height: @ts-unit-plus;
+			position: relative;
+
+			.user-image {
+				float: left;
+				margin: 0 @ts-unit-half;
+				width: @ts-unit-plus;
+			}
+
+			.name {
+				line-height: @ts-unit-plus;
+			}
+
+			.remove {
+				float: right;
+			}
+		}
+	}
+
+	.done {
+		float: right;
+		margin: @ts-unit-half;
+	}
+}

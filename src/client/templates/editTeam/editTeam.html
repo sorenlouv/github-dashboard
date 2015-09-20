@@ -1,9 +1,0 @@
-<div class="edit-team" ng-controller="editTeamCtrl">
-	Add your team members here:
-	<autocomplete items="organizationMembers" placeholder="Type Github username" on-select="addTeamMember"></autocomplete>
-	<div ng-repeat="member in teamMembers">
-		{{member}} <span ng-click="removeTeamMember(member)">(remove)</span>
-	</div>
-
-	<button ng-click="updateTeamIssues()">Done</button>
-</div>

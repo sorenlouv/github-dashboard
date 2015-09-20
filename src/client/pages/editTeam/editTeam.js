@@ -5,8 +5,13 @@ function editTeamCtrl($scope, githubService, teamService) {
 	$scope.teamMembers = teamService.getList();
 	githubService.getOrganizationMembers()
 		.then(function(members) {
-			$scope.organizationMembers = _.map(members, 'login');
+			$scope.organizationMembers = members;
+			$scope.organizationMemberNames = _.map(members, 'login');
 		});
+
+	$scope.getUser = function(login) {
+		return _.find($scope.organizationMembers, {login: login});
+	};
 
 	$scope.addTeamMember = function(name) {
 		teamService.add(name);

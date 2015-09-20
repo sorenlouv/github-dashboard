@@ -9,7 +9,6 @@ angular.module('githubDashboard', ['ngMaterial', 'ngRoute', 'ngCookies'])
 
 	// Controllers
 	.controller('mainCtrl', require('./templates/main/main'))
-	.controller('editTeamCtrl', require('./templates/editTeam/editTeam'))
 
 	// Services
 	.service('teamService', require('./services/team'))

@@ -3,6 +3,8 @@ var _ = require('lodash');
 function githubService($http, $cookies, $location, $q) {
 	var service = {};
 	var organizationName = 'Tradeshift';
+	var clientId = '462cf694b2beee8059b6';
+	var ACCESS_TOKEN_COOKIE_NAME = 'access_token';
 
 	function request(options) {
 		var baseUrl = 'https://api.github.com';
@@ -15,22 +17,46 @@ function githubService($http, $cookies, $location, $q) {
 				return options.raw ? response : response.data;
 			})
 			.catch(function(error) {
+				console.log(error);
 				if (error.status === 401) {
-					$location.path('/login');
+					console.log('Unauthenticated');
+					service.isTokenValid()
+						.then(function(isValid) {
+							if (!isValid) {
+								service.removeAccessToken();
+								$location.path('/login');
+							}
+						});
 				}
 				throw error;
 			});
 	}
 
+	service.isTokenValid = function() {
+		return request({
+			method: 'GET',
+			url: '/applications/' + clientId + '/tokens/' + service.accessToken
+		}).then(function() {
+			return true;
+		})
+		.catch(function() {
+			return false;
+		});
+	};
+
+	service.removeAccessToken = function() {
+		$cookies.remove(ACCESS_TOKEN_COOKIE_NAME);
+		service.accessToken = null;
+	};
+
 	service.getLoginUrl = function() {
-		var clientId = '462cf694b2beee8059b6';
 		var scope = 'user,repo';
 		return 'https://github.com/login/oauth/authorize?client_id=' + clientId + '&scope=' + scope;
 	};
 
 	service.getAccessToken = function() {
 		if (!service.accessToken) {
-			service.accessToken = $cookies.get('access_token');
+			service.accessToken = $cookies.get(ACCESS_TOKEN_COOKIE_NAME);
 		}
 		return service.accessToken;
 	};

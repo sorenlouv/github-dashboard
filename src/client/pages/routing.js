@@ -8,6 +8,10 @@ var router = function($routeProvider) {
 			template: require('./dashboard/dashboard.html'),
 			controller: require('./dashboard/dashboard'),
 		})
+		.when('/edit-team', {
+			template: require('./editTeam/editTeam.html'),
+			controller: require('./editTeam/editTeam'),
+		})
 		.otherwise({
 			redirectTo: '/login',
 		});

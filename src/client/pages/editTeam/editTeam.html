@@ -1,0 +1,20 @@
+<div class="edit-team-page">
+	<div class="container">
+		<header>Team members</header>
+		<div class="search">
+			<autocomplete items="organizationMemberNames" placeholder="Type Github username" on-select="addTeamMember"></autocomplete>
+		</div>
+
+		<div ng-if="teamMembers.length == 0" class="empty-team-members">No team members added</div>
+
+		<ul class="team-members">
+			<li ng-repeat="member in teamMembers" class="team-member">
+				<img ng-src="{{getUser(member).avatar_url}}" class="user-image">
+				<span class="name">{{member}}</span>
+				<span class="remove button button-error" ng-click="removeTeamMember(member)">remove</span>
+			</li>
+		</ul>
+
+		<a class="done button button-primary" ng-click="updateTeamIssues()" href="/#/dashboard">Back</a>
+	</div>
+</div>

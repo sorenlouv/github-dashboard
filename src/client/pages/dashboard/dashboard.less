@@ -1,10 +1,66 @@
-@import "dashboard/issues.less";
+.dashboard-page {
 
-.team-issues {
-	.edit {
-		font-size: @ts-fontsize-small;
-		font-weight: normal;
-		vertical-align: middle;
-		line-height: @ts-fontsize-big;
+	.container {
+		.content {
+			position: relative;
+			height: @ts-unit-double;
+			margin: @ts-unit-half 0;
+			border-bottom: 1px solid @ts-grey;
+
+			&:last-child {
+				margin-bottom: 0;
+				border-bottom: 0;
+			}
+
+			.user-image {
+				float: left;
+				margin: 0 @ts-unit-half;
+				width: @ts-unit-plus;
+			}
+
+			.line-top {
+				.ellipsis;
+				width: calc(~"100% - 80px");
+				.repository-name {
+					font-weight: bold;
+				}
+				.approved {
+					height: @ts-fontsize-small;
+				}
+			}
+
+			.line-bottom {
+				font-size: @ts-fontsize-small;
+				color: @ts-grey-dark;
+			}
+
+			.comments {
+				position: absolute;
+				top: @ts-unit-half;
+				right: @ts-unit-half;
+				.comment-count {
+					font-size: @ts-fontsize-small;
+					vertical-align: top;
+				}
+			}
+		}
+	}
+
+	.team-issues {
+		.edit {
+			font-size: @ts-fontsize-small;
+			font-weight: normal;
+			vertical-align: middle;
+			line-height: @ts-fontsize-big;
+		}
+
+		.empty-issues {
+			padding: @ts-unit;
+			text-align: center;
+			.text {
+				font-size: @ts-fontsize-big;
+				margin-bottom: @ts-unit-quarter;
+			}
+		}
 	}
 }
