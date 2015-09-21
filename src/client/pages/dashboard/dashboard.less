@@ -20,7 +20,7 @@
 
 			.line-top {
 				.ellipsis;
-				width: calc(~"100% - 80px");
+				width: calc(~"100% - @{ts-unit} * 6");
 				.repository-name {
 					font-weight: bold;
 				}
@@ -42,24 +42,6 @@
 					font-size: @ts-fontsize-small;
 					vertical-align: top;
 				}
-			}
-		}
-	}
-
-	.team-issues {
-		.edit {
-			font-size: @ts-fontsize-small;
-			font-weight: normal;
-			vertical-align: middle;
-			line-height: @ts-fontsize-big;
-		}
-
-		.empty-issues {
-			padding: @ts-unit;
-			text-align: center;
-			.text {
-				font-size: @ts-fontsize-big;
-				margin-bottom: @ts-unit-quarter;
 			}
 		}
 	}

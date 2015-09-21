@@ -1,7 +1,7 @@
 <div class="dashboard-page">
-	<div class="container user-issues" spinner="isLoading.user" spinner-options="spinnerOptions">
+	<div class="container user-issues" spinner="isLoading.mentions" spinner-options="spinnerOptions">
 		<header>PRs mentioning you</header>
-		<div ng-repeat="issue in userIssues" class="content">
+		<div ng-repeat="issue in mentionedIssues" class="content">
 			<img ng-src="{{issue.user.avatar_url}}" class="user-image">
 			<div class="line-top">
 				<span class="repository-name">{{issue.repository.name}}</span>
@@ -20,23 +20,18 @@
 		</div>
 	</div>
 
-	<div class="container team-issues" spinner="isLoading.team" spinner-options="spinnerOptions" ng-hide="isEditTeam">
-		<header>PRs mentioning your team members <a class="edit" href="/#/edit-team">edit</a></header>
-
-		<div ng-if="teamIssues.length == 0" class="empty-issues">
-			<div class="text">No issues to display</div>
-			<a class="button button-primary" href="/#/edit-team">Add team members</a>
-		</div>
-
-		<div ng-repeat="issue in teamIssues" class="content">
+	<div class="container user-issues" spinner="isLoading.comments" spinner-options="spinnerOptions">
+		<header>PRs you have commented or created</header>
+		<div ng-repeat="issue in commentedIssues" class="content">
 			<img ng-src="{{issue.user.avatar_url}}" class="user-image">
 			<div class="line-top">
 				<span class="repository-name">{{issue.repository.name}}</span>
 				<a ng-href="{{issue.html_url}}" class="issue-title">{{issue.title}}</a>
+				<img class="approved" ng-if="issue.approved" src="img/checkmark.png">
 			</div>
 			<div class="line-bottom">
 				Opened <span class="created-at">{{getRelativeTime(issue.created_at)}}</span> by
-				<span class="username">{{issue.user.login}}</span> mentioning {{issue.mentionedUser}}
+				<span class="username">{{issue.user.login}}</span>
 			</div>
 
 			<div class="comments">

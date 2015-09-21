@@ -1,0 +1,27 @@
+<div class="team-page">
+	<div class="container team-issues" spinner="isLoading.team" spinner-options="spinnerOptions">
+		<header>PRs mentioning your team members <a class="edit" href="/#/edit-team">edit</a></header>
+
+		<div ng-if="teamIssues.length == 0" class="empty-issues">
+			<div class="text">No issues to display</div>
+			<a class="button button-primary" href="/#/edit-team">Add team members</a>
+		</div>
+
+		<div ng-repeat="issue in teamIssues" class="content">
+			<img ng-src="{{issue.user.avatar_url}}" class="user-image">
+			<div class="line-top">
+				<span class="repository-name">{{issue.repository.name}}</span>
+				<a ng-href="{{issue.html_url}}" class="issue-title">{{issue.title}}</a>
+			</div>
+			<div class="line-bottom">
+				Opened <span class="created-at">{{getRelativeTime(issue.created_at)}}</span> by
+				<span class="username">{{issue.user.login}}</span> mentioning {{issue.mentionedUser}}
+			</div>
+
+			<div class="comments">
+				<img src="img/comments.png">
+				<span class="comment-count">{{issue.comments}}</span>
+			</div>
+		</div>
+	</div>
+</div>

@@ -6,6 +6,9 @@ function githubService($http, $cookies, $location, $q) {
 	var clientId = '462cf694b2beee8059b6';
 	var ACCESS_TOKEN_COOKIE_NAME = 'access_token';
 
+	var twoWeeksAgo = new Date(Date.now() - 1000 * 3600 * 24 * 14).toISOString();
+	var oneWeekAgo = new Date(Date.now() - 1000 * 3600 * 24 * 7).toISOString();
+
 	function request(options) {
 		var baseUrl = 'https://api.github.com';
 		options.url = baseUrl + options.url;
@@ -66,13 +69,24 @@ function githubService($http, $cookies, $location, $q) {
 		return !!accessToken;
 	};
 
-	service.getUserMentions = function() {
-		var twoWeeksAgo = new Date(Date.now() - 1000 * 3600 * 24 * 14).toISOString();
+	service.getIssuesCreatedByUser = function() {
+		return request({
+			method: 'GET',
+			url: '/orgs/' + organizationName + '/issues',
+			params: {
+				filter: 'created',
+				state: 'open'
+			}
+		});
+	};
+
+	service.getIssuesMentioningUser = function() {
 		return request({
 			method: 'GET',
 			url: '/orgs/' + organizationName + '/issues',
 			params: {
 				filter: 'mentioned',
+				state: 'open',
 				since: twoWeeksAgo,
 				sort: 'update'
 			}
@@ -80,7 +94,6 @@ function githubService($http, $cookies, $location, $q) {
 	};
 
 	service.getTeamMentions = function(repoName, username) {
-		var oneWeekAgo = new Date(Date.now() - 1000 * 3600 * 24 * 7).toISOString();
 		return request({
 			method: 'GET',
 			url: '/repos/' + organizationName + '/' + repoName + '/issues',
@@ -112,6 +125,7 @@ function githubService($http, $cookies, $location, $q) {
 
 	service.getOrganizationMembers = function() {
 		return request({
+			cache: true,
 			method: 'GET',
 			url: '/orgs/' + organizationName + '/members',
 			params: {
@@ -121,14 +135,38 @@ function githubService($http, $cookies, $location, $q) {
 	};
 
 	service.getIssueComments = function(repoName, issueId) {
-		var oneWeekAgo = new Date(Date.now() - 1000 * 3600 * 24 * 7).toISOString();
 		return request({
 			method: 'GET',
-			url: '/repos/' + organizationName + '/' + repoName + '/issues/' + issueId + '/comments',
+			url: '/repos/' + organizationName + '/' + repoName + '/issues/' + issueId + '/comments'
+		});
+	};
+
+	service.getIssuesByCommenter = function(username) {
+		return request({
+			method: 'GET',
+			url: '/search/issues',
 			params: {
+				q: 'commenter:' + username + ' state:open type:pr updated:>=' + twoWeeksAgo,
 				direction: 'desc',
 				sort: 'updated'
 			}
+		}).then(function(result) {
+			return result.items;
+		});
+	};
+
+	service.getIssuesByOwnComments = function() {
+		return service.getUser()
+			.then(function(user) {
+				return service.getIssuesByCommenter(user.login);
+			});
+	};
+
+	service.getUser = function() {
+		return request({
+			method: 'GET',
+			url: '/user',
+			cache: true
 		});
 	};
 
